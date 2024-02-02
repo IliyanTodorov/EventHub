@@ -13,10 +13,41 @@ namespace EventHub.Data.Models
         public ApplicationUser()
         {
             this.Id = Guid.NewGuid().ToString();
+            this.Reviews = new HashSet<Review>();
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
         }
+
+        // Personal Information
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        // Organizer Details
+        public bool IsOrganizer { get; set; }
+
+        // Event Details
+        public virtual ICollection<Event> OrganizedEvents { get; set; }
+
+        public virtual ICollection<Event> AttendedEvents { get; set; }
+
+        // Additional Contact Information
+        public string PhoneNumber { get; set; }
+
+        // Address Information (Optional)
+        public string StreetAddress { get; set; }
+
+        public string City { get; set; }
+
+        public string State { get; set; }
+
+        public string PostalCode { get; set; }
+
+        // Profile Image URL (Optional)
+        public string ProfileImageUrl { get; set; }
+
+        public virtual ICollection<Review> Reviews { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

@@ -24,6 +24,14 @@
         {
         }
 
+        public DbSet<Event> Events { get; set; }
+
+        public DbSet<EventCategory> EventCategories { get; set; }
+
+        public DbSet<Review> Reviews { get; set; }
+
+        public DbSet<Venue> Venues { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
@@ -72,6 +80,16 @@
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(u => u.AttendedEvents)
+                .WithMany(e => e.Attendees)
+                .UsingEntity(j => j.ToTable("UserEvents"));
+
+            builder.Entity<Event>()
+                .HasOne(e => e.Organizer)
+                .WithMany(u => u.OrganizedEvents)
+                .HasForeignKey(e => e.OrganizerId);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
